@@ -16,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Add Computers <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'computerAdd' %}">Add Computers <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Add Commands</a>
+                    <a class="nav-link" href="{% url 'commandAdd' %}">Add Commands</a>
                 </li>
             </ul>
             <span class="navbar-text">
@@ -37,19 +37,21 @@
                             <th scope="col">Hostname</th>
                             <th scope="col">User</th>
                             <th scope="col">Status</th>
-                             <th scope="col">Edit</th>
+                            <th scope="col">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% if computer %}
                         {% for computer in computers %}
                         <tr>
-                            <th >{{computer.ip}}</th>
+                            <th>{{computer.ip}}</th>
                             <td>{{computer.name}}</td>
                             <td>{{computer.user}}</td>
                             <td>{{computer.status}}</td>
-                            <td><a href="{% url 'computerEdit' computer.id %}">icone</a></td>                     
+                            <td><a href="{% url 'computerEdit' computer.id %}">icone</a></td>
                         </tr>
                         {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -63,10 +65,10 @@
                     <tbody>
                         <tr>
                             <td>
-                            <div class="custom-control custom-checkbox">
-  <input type="checkbox" class="custom-control-input" id="customCheck1">
-  <label class="custom-control-label" for="customCheck1">ADD</label>
-</div>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <label class="custom-control-label" for="customCheck1">ADD</label>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -93,7 +95,7 @@
                             <td>{{command.command}}</td>
                             <td><a href="{% url 'commandEdit' command.id %}">icone</a></td>
                         </tr>
-                        {%  endfor %}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>

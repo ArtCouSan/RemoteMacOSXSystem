@@ -29,31 +29,58 @@
     </nav>
     <div class="container-fluid" style="position:fixed; top: 10%">
 
-        <form>
+        {%  if computer %}
+        <form action="{% url 'computerEdit' %}" method="POST">
+        {% else %}
+        <form action="{% url 'computerAdd' %}" method="POST">      
+        {%  endif %}
+
+        {% csrf_token %}
+
             <div class="form-row">
                 <div class="col form-group">
                     <label for="Hostname">Hostname</label>
-                    <input value="{{computer.name}}" type="text" class="form-control" placeholder="Hostname">
+                    {%  if computer %}
+                    <input value="{{computer.name}}" type="text" name="name" class="form-control" placeholder="Hostname" required>
+                    {% else %}
+                    <input type="text" name="name" class="form-control" placeholder="Hostname" required>
+                    {%  endif %}
                 </div>
                 <div class="col form-group">
                     <label for="IP">IP</label>
-                    <input value="{{computer.ip}}" type="text" class="form-control" placeholder="IP">
+                    {%  if computer %}
+                    <input value="{{computer.ip}}" type="text" name="ip" class="form-control" placeholder="IP" required>
+                    {% else %}
+                    <input type="text" name="ip" class="form-control" placeholder="IP" required>
+                    {%  endif %}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="UserLogged">User Logged</label>
-                    <input value="{{computer.user}}" type="text" class="form-control" placeholder="User Logged">
+                    {%  if computer %}
+                    <input value="{{computer.user}}" type="text" name="user" class="form-control" placeholder="User Logged" required>
+                    {% else %}
+                    <input type="text" name="user" class="form-control" placeholder="User Logged" required>
+                    {%  endif %}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="User">User</label>
-                    <input value="{{computer.userLogin}}" type="text" class="form-control" placeholder="User">
+                    {%  if computer %}
+                    <input value="{{computer.userLogin}}" type="text" name="userLogin" class="form-control" placeholder="User" required>
+                    {% else %}
+                    <input  type="text" name="userLogin" class="form-control" placeholder="User" required>
+                    {%  endif %}
                 </div>
                 <div class="col form-group">
                     <label for="Password">Password</label>
-                    <input value="{{computer.password}}" type="password" class="form-control" placeholder="Password">
+                    {%  if computer %}
+                    <input value="{{computer.password}}" type="password" name="password" class="form-control" placeholder="Password" required>
+                    {% else %}
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    {%  endif %}
                 </div>
                 <div class="col-1 form-group">
                     <label for="validar">Validar</label>
@@ -62,7 +89,7 @@
             </div>
             <div class="form-row justify-content-center">
                 <div class="col-1 form-group">
-                    <button type="button" class="btn btn-success">Salvar</button>
+                    <button type="submit" class="btn btn-success">Salvar</button>
 
                 </div>
                 <div class="col-1 form-group">
@@ -70,6 +97,9 @@
                 </div>
             </div>
         </form>
+
+        {%  if form.erros %}
+        {%  endif %}
 
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
