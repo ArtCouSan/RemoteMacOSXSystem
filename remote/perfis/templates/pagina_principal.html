@@ -12,7 +12,7 @@
 
 <body>
 
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" style="position: absolute;">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -27,7 +27,7 @@
             </span>
         </div>
     </nav>
-    <div class="container-fluid" style="position:fixed; top: 30px">
+    <div class="container-fluid" style="position:fixed; top: 10%">
         <div class="row">
             <div class="col-11">
                 <table class="table table-bordered">
@@ -37,15 +37,19 @@
                             <th scope="col">Hostname</th>
                             <th scope="col">User</th>
                             <th scope="col">Status</th>
+                             <th scope="col">Edit</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for computer in computers %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <th >{{computer.ip}}</th>
+                            <td>{{computer.name}}</td>
+                            <td>{{computer.user}}</td>
+                            <td>{{computer.status}}</td>
+                            <td><a href="/computerEdit/{{computer.id}}">icone</a></td>                     
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -58,7 +62,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Otto</td>
+                            <td>
+                            <div class="custom-control custom-checkbox">
+  <input type="checkbox" class="custom-control-input" id="customCheck1">
+  <label class="custom-control-label" for="customCheck1">ADD</label>
+</div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,14 +81,19 @@
                             <th scope="col">Category</th>
                             <th scope="col">Name</th>
                             <th scope="col">Command</th>
+                            <th scope="col">Edit</th>
+
                         </tr>
                     </thead>
                     <tbody>
+                        {% for command in commands%}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
+                            <th>{{command.category}}s</th>
+                            <td>{{command.name}}</td>
+                            <td>{{command.command}}</td>
+                            <td><a href="">icone</a></td>
                         </tr>
+                        {%  endfor %}
                     </tbody>
                 </table>
             </div>
@@ -92,7 +106,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Otto</td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
