@@ -47,7 +47,7 @@
                             <td>{{computer.name}}</td>
                             <td>{{computer.user}}</td>
                             <td>{{computer.status}}</td>
-                            <td><a href="/computerEdit/{{computer.id}}">icone</a></td>                     
+                            <td><a href="{% url 'computerEdit' computer.id %}">icone</a></td>                     
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -91,7 +91,7 @@
                             <th>{{command.category}}s</th>
                             <td>{{command.name}}</td>
                             <td>{{command.command}}</td>
-                            <td><a href="">icone</a></td>
+                            <td><a href="{% url 'commandEdit' command.id %}">icone</a></td>
                         </tr>
                         {%  endfor %}
                     </tbody>

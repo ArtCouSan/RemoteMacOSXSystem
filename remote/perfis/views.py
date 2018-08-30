@@ -12,6 +12,12 @@ def home(req, user_id):
 
     return render(req, 'pagina_principal.html', { "user" : user , "computers": computers,"commands": commands})
 
-def computerEdit(req, computer):
+def computerEdit(req, computer_id):
 
+    computer = Computer.objects.get(id = computer_id)
     return render(req, 'pagina_computer.html', {"computer": computer })
+
+def commandEdit(req, command_id):
+
+    command = Command.objects.get(id = command_id)
+    return render(req, 'pagina_command.html', {"command": command})
