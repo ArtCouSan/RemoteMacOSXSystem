@@ -36,30 +36,33 @@
                 <table class="table table-bordered table-sm table-striped table-fixed " id="tableComputer">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">IP</th>
-                            <th scope="col">Hostname</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Select</th>
+                            <th scope="col"><div class="text-center">IP</div></th>
+                            <th scope="col"><div class="text-center">Hostname</th>
+                            <th scope="col"><div class="text-center">User</th>
+                            <th scope="col"><div class="text-center">Status</th>
+                            <th scope="col"><div class="text-center">Edit</th>
+                            <th scope="col"><div class="text-center">Select</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% if computers %} {% for computer in computers %}
+                        {% if computers %}
+                         {% for computer in computers %}
                         <tr>
-                            <td>{{computer.ip}}</td>
-                            <td>{{computer.name}}</td>
-                            <td>{{computer.user}}</td>
-                            <td>{{computer.status}}</td>
-                            <td><a href="{% url 'computerEdit' computer.id %}"><i class="fas fa-pen" style="color: black"></i></a></td>
-                            <td>
+                            <td><div class="text-center">{{computer.ip}}</div></td>
+                            <td><div class="text-center">{{computer.name}}</div></td>
+                            <td><div class="text-center">{{computer.user}}</div></td>
+                            <td><div class="text-center"><i class="far fa-circle" style="color: red"></i></div></td>
+                            <td><div class="text-center"><a href="{% url 'computerEdit' computer.id %}"><i class="fas fa-pen" style="color: black"></i></a></td>
+                            <td><div class="text-center">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="computer{{computer.id}}">
-                                    <label class="custom-control-label" for="computer{{computer.id}}">ADD</label>
+                                    <label class="custom-control-label" for="computer{{computer.id}}">+</label>
+                                </div>
                                 </div>
                             </td>
                         </tr>
-                        {% endfor %} {% endif %}
+                        {% endfor %}
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -69,28 +72,31 @@
                 <table class="table table-bordered table-sm table-striped" id="tableCommand">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Category >_</th>
-                            <th scope="col">Name >_</th>
-                            <th scope="col">Command >_</th>
-                            <th scope="col">Edit >_</th>
-                            <th scope="col">Select >_</th>
+                            <th scope="col"><div class="text-center">Category >_</div></th>
+                            <th scope="col"><div class="text-center">Name >_ </div></th>
+                            <th scope="col"><div class="text-center">Command >_ </div></th>
+                            <th scope="col"><div class="text-center">Edit >_ </div></th>
+                            <th scope="col"><div class="text-center">Select >_ </div></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% if commands %} {% for command in commands%}
+                        {% if commands %} 
+                        {% for command in commands%}
                         <tr>
-                            <th>{{command.category}}s</th>
-                            <td>{{command.name}}</td>
-                            <td>{{command.command}}</td>
-                            <td><a href="{% url 'commandEdit' command.id %}"><i class="fas fa-pen" style="color: black"></i></a></td>
-                            <td>
+                            <th><div class="text-center">{{command.category}}</div></th>
+                            <td><div class="text-center">{{command.name}}</div></td>
+                            <td><div class="text-center">{{command.command}}</div></td>
+                            <td><div class="text-center"><a href="{% url 'commandEdit' command.id %}"><i class="fas fa-pen" style="color: black"></i></a></div></td>
+                            <td><div class="text-center">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="command{{command.id}}">
-                                    <label class="custom-control-label" for="command{{command.id}}">ADD</label>
+                                    <label class="custom-control-label" for="command{{command.id}}">+</label>
+                                </div>
                                 </div>
                             </td>
                         </tr>
-                        {% endfor %} {% endif %}
+                        {% endfor %}
+                         {% endif %}
                     </tbody>
                 </table>
             </div>

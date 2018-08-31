@@ -29,10 +29,11 @@
         </div>
     </nav>
     <div class="container-fluid" style="position:fixed; top: 13%">
+    <div class="col-6 offset-md-3">
         {% if command %}
         <form action="{% url 'commandEdit' command.id %}" method="POST">
         {% else %}
-        <form action="{% url 'commandAdd' %}" method="POST">  
+        <form action="{% url 'commandAdd' %}"  method="POST">  
         {% endif %}
 
         {% csrf_token %}
@@ -82,7 +83,7 @@
                 </div>
         </form>         
         {% endif %}
-
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

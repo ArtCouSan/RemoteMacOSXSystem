@@ -29,7 +29,7 @@
         </div>
     </nav>
     <div class="container-fluid" style="position:fixed; top: 13%">
-
+    <div class="col-6 offset-md-3">
         {%  if computer %}
         <form action="{% url 'computerEdit' computer.id %}" method="POST">
         {% else %}
@@ -44,7 +44,7 @@
                     {%  if computer %}
                     <input value="{{computer.name}}" type="text" name="name" class="form-control" placeholder="Hostname" required autocomplete="off" /> 
                     {% else %}
-                    <input type="text" name="name" class="form-control" placeholder="Hostname" required autocomplete="off" />
+                    <input type="text" name="name" class="form-control" value="{{form.name.value}}" placeholder="Hostname" required autocomplete="off" />
                     {%  endif %}
                 </div>
                 <div class="col form-group">
@@ -52,7 +52,7 @@
                     {%  if computer %}
                     <input value="{{computer.ip}}" type="text" name="ip" class="form-control" placeholder="IP" required autocomplete="off" />
                     {% else %}
-                    <input type="text" name="ip" class="form-control" placeholder="IP" required autocomplete="off" /> 
+                    <input type="text" name="ip" class="form-control" value="{{form.ip.value}}" placeholder="IP" required autocomplete="off" /> 
                     {%  endif %}
                 </div>
             </div>
@@ -60,9 +60,9 @@
                 <div class="col form-group">
                     <label for="UserLogged">User Logged</label>
                     {%  if computer %}
-                    <input value="{{computer.user}}" type="text" name="user" class="form-control" placeholder="User Logged" required autocomplete="off" />
+                    <input value="{{computer.userLogin}}" type="text" name="userLogin" class="form-control" placeholder="User Logged" required autocomplete="off" />
                     {% else %}
-                    <input type="text" name="user" class="form-control" placeholder="User Logged" required autocomplete="off" /> 
+                    <input type="text" name="userLogin" class="form-control" value="{{form.userLogin.value}}" placeholder="User Logged" required autocomplete="off" /> 
                     {%  endif %}
                 </div>
             </div>
@@ -70,9 +70,9 @@
                 <div class="col form-group">
                     <label for="User">User</label>
                     {%  if computer %}
-                    <input value="{{computer.userLogin}}" type="text" name="userLogin" class="form-control" placeholder="User" required autocomplete="off" />
+                    <input value="{{computer.user}}" type="text" name="user" class="form-control" placeholder="User" required autocomplete="off" />
                     {% else %}
-                    <input  type="text" name="userLogin" class="form-control" placeholder="User" required autocomplete="off">
+                    <input  type="text" name="user" class="form-control" placeholder="User" value="{{form.user.value}}" required autocomplete="off">
                     {%  endif %}
                 </div>
                 <div class="col form-group">
@@ -80,12 +80,8 @@
                     {%  if computer %}
                     <input value="{{computer.password}}" type="password" name="password" class="form-control" placeholder="Password" required autocomplete="off" />
                     {% else %}
-                    <input type="password" name="password" class="form-control" placeholder="Password" required autocomplete="off" /> 
+                    <input type="password" name="password" class="form-control" value="{{form.password.value}}" placeholder="Password" required autocomplete="off" /> 
                     {%  endif %}
-                </div>
-                <div class="col-1 form-group">
-                    <label for="validar">Validar</label>
-                    <button type="button" class="form-control btn btn-info">V</button>
                 </div>
             </div>
             <div class="form-row justify-content-center">
@@ -103,6 +99,7 @@
         {% endif %}
         {%  if form.erros %}
         {%  endif %}
+    </div>
 
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
