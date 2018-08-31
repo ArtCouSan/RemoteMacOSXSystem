@@ -4,7 +4,7 @@ from views import CommandViewEdit, CommandViewAdd
 
 urlpatterns = patterns('',
     url(r'^commandEdit/(?P<command_id>\d+)$', CommandViewEdit, name="commandEdit"),
-    url(r'^commandEdit/)$', CommandViewEdit, name="commandEdit"),
-    url(r'^commandAdd/$', CommandViewAdd, name='commandAdd')
+    url(r'^commandEdit/$', CommandViewEdit, name="commandEdit"),
+    url(r'^commandAdd/$', CommandViewAdd.as_view(), name='commandAdd')
 )
 

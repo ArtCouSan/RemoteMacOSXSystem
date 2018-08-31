@@ -2,18 +2,16 @@ from django.shortcuts import render, redirect
 from command.models import *
 from django.views.generic import View
 from command.forms import CommandForm
-from django.contrib.auth.models import Command
 
-
-class CommandEditView(View):
+class CommandViewEdit(View):
 
     template_name = 'pagina_command.html'
 
     def get(self, req, command_id):
         command = Command.objects.get(id = command_id)
-        return render(request, self.template_name,  {"command": command })
+        return render(req, self.template_name,  {"command": command })
     
-    def post(self, req, , command_id):
+    def post(self, req, command_id):
 
         form = CommandForm(req.Post)
 
@@ -23,15 +21,15 @@ class CommandEditView(View):
             command.save()
             return redirect('home')
 
-        return render(request, self.template_name, {'form' : form })
+        return render(req, self.template_name, {'form' : form })
 
 
-class CommandAddView(View):
+class CommandViewAdd(View):
 
     template_name = 'pagina_command.html'
 
     def get(self, req):
-        return render(request, self.template_name)
+        return render(req, self.template_name)
     
     def post(self, req):
 
@@ -44,4 +42,4 @@ class CommandAddView(View):
             return redirect('home')
 
 
-        return render(request, self.template_name, {'form' : form })
+        return render(req, self.template_name, {'form' : form })

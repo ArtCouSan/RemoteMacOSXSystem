@@ -1,5 +1,4 @@
-from django import  forms
-from django.contrib.auth.models import Computer
+from django import forms
 
 class ComputerForm(forms.Form):
 
@@ -14,12 +13,6 @@ class ComputerForm(forms.Form):
         if not super(ComputerForm, self).is_valid():
             self.add_error('Verifique os campos')
             valid = False
-
-        computer_exists = Computer.objects.filter(ip=self.data['ip']).exists()
-
-        if computer_exists:
-            self.add_error('IP existente')
-            valid = false
 
         return valid
 
