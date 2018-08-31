@@ -2,10 +2,11 @@ from django.shortcuts import render, redirect
 from command.models import Command
 from django.views.generic import View
 from command.forms import CommandForm
+from django.contrib.auth.decorators import login_required
 
 def commandRemove(req, command_id):
     command = Command.objects.filter(id = command_id).delete()
-    return redirect('home', user_id = 1)
+    return redirect('home')
 
 class CommandViewEdit(View):
 
@@ -22,7 +23,7 @@ class CommandViewEdit(View):
         if form.is_valid():
             dados_form = form.data
             Command.objects.filter(id = command_id).update(category = dados_form['category'],name = dados_form['name'],command =  dados_form['command'])
-            return redirect('home', user_id = 1)
+            return redirect('home')
 
         return render(req, self.template_name, {'form' : form })
 
@@ -41,6 +42,6 @@ class CommandViewAdd(View):
             dados_form = form.data
             command = Command.objects.create(category = dados_form['category'],name = dados_form['name'],command = dados_form['command'])
             command.save()
-            return redirect('home', user_id = 1)
+            return redirect('home')
 
         return render(req, self.template_name, {'form' : form })
