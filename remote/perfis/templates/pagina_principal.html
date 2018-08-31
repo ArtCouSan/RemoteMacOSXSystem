@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
     <title>Pagina Principal</title>
 </head>
@@ -16,21 +20,21 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'computerAdd' %}">Add Computers <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'computerAdd' %}"><i class="fas fa-desktop " style="color:green"></i> </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'commandAdd' %}">Add Commands</a>
+                    <a class="nav-link" href="{% url 'commandAdd' %}"><i class="fas fa-terminal " style="color: yellow"></i></a>
                 </li>
             </ul>
             <span class="navbar-text">
-                User
+                <i class="fas fa-unlock-alt" style="color: red"></i>
             </span>
         </div>
     </nav>
     <div class="container-fluid" style="position:absolute; top: 10%">
         <div class="row">
-            <div class="col-11">
-                <table class="table table-bordered">
+            <div class="col">
+                <table class="table table-bordered table-sm table-striped table-fixed " id="tableComputer">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">IP</th>
@@ -38,82 +42,66 @@
                             <th scope="col">User</th>
                             <th scope="col">Status</th>
                             <th scope="col">Edit</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                        {% for computer in computers %}
-                        <tr>
-                            <th>{{computer.ip}}</th>
-                            <td>{{computer.name}}</td>
-                            <td>{{computer.user}}</td>
-                            <td>{{computer.status}}</td>
-                            <td><a href="{% url 'computerEdit' computer.id %}">icone</a></td>
-                        </tr>
-                        {% endfor %}
-                     
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-1">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
                             <th scope="col">Select</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% if computers %} {% for computer in computers %}
                         <tr>
+                            <td>{{computer.ip}}</td>
+                            <td>{{computer.name}}</td>
+                            <td>{{computer.user}}</td>
+                            <td>{{computer.status}}</td>
+                            <td><a href="{% url 'computerEdit' computer.id %}"><i class="fas fa-pen" style="color: black"></i></a></td>
                             <td>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                    <label class="custom-control-label" for="customCheck1">ADD</label>
+                                    <input type="checkbox" class="custom-control-input" id="computer{{computer.id}}">
+                                    <label class="custom-control-label" for="computer{{computer.id}}">ADD</label>
                                 </div>
                             </td>
                         </tr>
+                        {% endfor %} {% endif %}
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row">
-            <div class="col-11">
-                <table class="table table-bordered">
+            <div class="col">
+                <table class="table table-bordered table-sm table-striped" id="tableCommand">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Category</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Command</th>
-                            <th scope="col">Edit</th>
-
+                            <th scope="col">Category >_</th>
+                            <th scope="col">Name >_</th>
+                            <th scope="col">Command >_</th>
+                            <th scope="col">Edit >_</th>
+                            <th scope="col">Select >_</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for command in commands%}
+                        {% if commands %} {% for command in commands%}
                         <tr>
                             <th>{{command.category}}s</th>
                             <td>{{command.name}}</td>
                             <td>{{command.command}}</td>
-                            <td><a href="{% url 'commandEdit' command.id %}">icone</a></td>
+                            <td><a href="{% url 'commandEdit' command.id %}"><i class="fas fa-pen" style="color: black"></i></a></td>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="command{{command.id}}">
+                                    <label class="custom-control-label" for="command{{command.id}}">ADD</label>
+                                </div>
+                            </td>
                         </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-1">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Select</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                        </tr>
+                        {% endfor %} {% endif %}
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="row justify-content-center" style="margin-bottom: 5px;">
+            <div class="col-2">
+                <button type="button" class="btn btn-warning btn-lg btn-block"><i class="fas fa-exclamation"></i> Send</button>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -121,6 +109,8 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/personal.js' %}"></script>
 </body>
 
 </html>

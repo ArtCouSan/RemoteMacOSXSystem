@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
-from computer.models import *
+from computer.models import Computer
 from django.views.generic.base import View
 from computer.forms import ComputerForm
+
+def computerRemove(req, computer_id):
+    computer = Computer.objects.filter(id = computer_id).delete()
+    return redirect('home', user_id = 1)
 
 class ComputerViewEdit(View):
 
@@ -13,17 +17,14 @@ class ComputerViewEdit(View):
     
     def post(self, req, computer_id):
 
-        form = ComputerForm(req.Post)
+        form = ComputerForm(req.POST)
 
         if form.is_valid():
             dados_form = form.data
-            computer.objects.get(id = computer_id).update(name = dados_form['name'],ip = dados_form['ip'],userLogin =  dados_form['userLogin'],user =  dados_form['user'],password =  dados_form['password'])
-            computer.save()
-            return redirect('home')
-
+            Computer.objects.filter(id = computer_id).update(name = dados_form['name'],ip = dados_form['ip'],userLogin =  dados_form['userLogin'],user =  dados_form['user'],password =  dados_form['password'])
+            return redirect('home', user_id = 1)
 
         return render(req, self.template_name, {'form' : form })
-
 
 class ComputerViewAdd(View):
 
@@ -41,6 +42,5 @@ class ComputerViewAdd(View):
             computer = Computer.objects.create(name = dados_form['name'],ip =  dados_form['ip'],userLogin =  dados_form['userLogin'],user = dados_form['user'], password = dados_form['password'])
             computer.save()
             return redirect('home', user_id = 1)
-
 
         return render(req, self.template_name, {'form' : form })

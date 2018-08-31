@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
-from command.models import *
+from command.models import Command
 from django.views.generic import View
 from command.forms import CommandForm
+
+def commandRemove(req, command_id):
+    command = Command.objects.filter(id = command_id).delete()
+    return redirect('home', user_id = 1)
 
 class CommandViewEdit(View):
 
@@ -13,16 +17,14 @@ class CommandViewEdit(View):
     
     def post(self, req, command_id):
 
-        form = CommandForm(req.Post)
+        form = CommandForm(req.POST)
 
         if form.is_valid():
             dados_form = form.data
-            command.objects.get(id = command_id).update(category = dados_form['category'],name = dados_form['name'],command =  dados_form['command'])
-            command.save()
-            return redirect('home')
+            Command.objects.filter(id = command_id).update(category = dados_form['category'],name = dados_form['name'],command =  dados_form['command'])
+            return redirect('home', user_id = 1)
 
         return render(req, self.template_name, {'form' : form })
-
 
 class CommandViewAdd(View):
 
@@ -33,13 +35,12 @@ class CommandViewAdd(View):
     
     def post(self, req):
 
-        form = CommandForm(req.Post)
+        form = CommandForm(req.POST)
 
         if form.is_valid():
             dados_form = form.data
-            command = Command.objects.create_command(dados_form['category'],dados_form['name'],dados_form['command'])
-            computer.save()
-            return redirect('home')
-
+            command = Command.objects.create(category = dados_form['category'],name = dados_form['name'],command = dados_form['command'])
+            command.save()
+            return redirect('home', user_id = 1)
 
         return render(req, self.template_name, {'form' : form })
