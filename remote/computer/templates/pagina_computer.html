@@ -17,18 +17,18 @@
         <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/home/1"><i class="fas fa-home" style="color: white"></i></a>
+                    <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home" style="color: white"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'commandAdd' %}"><i class="fas fa-terminal" style="color: yellow"></i></a>
                 </li>
             </ul>
             <span class="navbar-text">
-                 <i class="fas fa-unlock-alt" style="color: red"></i>
+                <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-unlock-alt" style="color: red"></i></a>            
             </span>
         </div>
     </nav>
-    <div class="container-fluid" style="position:fixed; top: 10%">
+    <div class="container-fluid" style="position:fixed; top: 13%">
 
         {%  if computer %}
         <form action="{% url 'computerEdit' computer.id %}" method="POST">
@@ -42,17 +42,17 @@
                 <div class="col form-group">
                     <label for="Hostname">Hostname</label>
                     {%  if computer %}
-                    <input value="{{computer.name}}" type="text" name="name" class="form-control" placeholder="Hostname" required>
+                    <input value="{{computer.name}}" type="text" name="name" class="form-control" placeholder="Hostname" required autocomplete="off" /> 
                     {% else %}
-                    <input type="text" name="name" class="form-control" placeholder="Hostname" required>
+                    <input type="text" name="name" class="form-control" placeholder="Hostname" required autocomplete="off" />
                     {%  endif %}
                 </div>
                 <div class="col form-group">
                     <label for="IP">IP</label>
                     {%  if computer %}
-                    <input value="{{computer.ip}}" type="text" name="ip" class="form-control" placeholder="IP" required>
+                    <input value="{{computer.ip}}" type="text" name="ip" class="form-control" placeholder="IP" required autocomplete="off" />
                     {% else %}
-                    <input type="text" name="ip" class="form-control" placeholder="IP" required>
+                    <input type="text" name="ip" class="form-control" placeholder="IP" required autocomplete="off" /> 
                     {%  endif %}
                 </div>
             </div>
@@ -60,9 +60,9 @@
                 <div class="col form-group">
                     <label for="UserLogged">User Logged</label>
                     {%  if computer %}
-                    <input value="{{computer.user}}" type="text" name="user" class="form-control" placeholder="User Logged" required>
+                    <input value="{{computer.user}}" type="text" name="user" class="form-control" placeholder="User Logged" required autocomplete="off" />
                     {% else %}
-                    <input type="text" name="user" class="form-control" placeholder="User Logged" required>
+                    <input type="text" name="user" class="form-control" placeholder="User Logged" required autocomplete="off" /> 
                     {%  endif %}
                 </div>
             </div>
@@ -70,17 +70,17 @@
                 <div class="col form-group">
                     <label for="User">User</label>
                     {%  if computer %}
-                    <input value="{{computer.userLogin}}" type="text" name="userLogin" class="form-control" placeholder="User" required>
+                    <input value="{{computer.userLogin}}" type="text" name="userLogin" class="form-control" placeholder="User" required autocomplete="off" />
                     {% else %}
-                    <input  type="text" name="userLogin" class="form-control" placeholder="User" required>
+                    <input  type="text" name="userLogin" class="form-control" placeholder="User" required autocomplete="off">
                     {%  endif %}
                 </div>
                 <div class="col form-group">
                     <label for="Password">Password</label>
                     {%  if computer %}
-                    <input value="{{computer.password}}" type="password" name="password" class="form-control" placeholder="Password" required>
+                    <input value="{{computer.password}}" type="password" name="password" class="form-control" placeholder="Password" required autocomplete="off" />
                     {% else %}
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required autocomplete="off" /> 
                     {%  endif %}
                 </div>
                 <div class="col-1 form-group">
