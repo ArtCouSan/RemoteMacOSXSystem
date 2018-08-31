@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from perfis.models import *
 from command.models import Command
 from computer.models import Computer
 from django.contrib.auth.decorators import login_required
