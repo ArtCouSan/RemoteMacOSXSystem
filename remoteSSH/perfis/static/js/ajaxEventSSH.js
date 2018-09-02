@@ -15,12 +15,14 @@ $(document).ready(function () {
 				'commands[]': commands,
 				'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
 			},
-	
+
 		});
-    });
-    
+
+	}); 
+	
 });
 
+/* Pega valores de computeadores */
 function getValueComputer(){
 
 	var computers = [];
@@ -34,7 +36,7 @@ function getValueComputer(){
 	
 };
 
-
+/* Pega valores de commando */
 function getValueCommand(){
 
 	var commands = [];
