@@ -3,6 +3,8 @@ from computer.models import Computer
 from django.views.generic.base import View
 from computer.forms import ComputerForm
 from django.contrib.auth.decorators import login_required
+import paramiko
+import sys
 
 # Remover computador pelo id
 def computerRemove(req, computer_id):
@@ -25,14 +27,38 @@ class ComputerViewEdit(View):
         form = ComputerForm(req.POST)
 
         if form.is_valid():
+
             dados_form = form.data
-            cp = Computer.objects.get(id = computer_id)
-            cp.name = dados_form['name']
-            cp.ip = dados_form['ip']
-            cp.userLogin =  dados_form['userLogin']
-            cp.user =  dados_form['user']
-            cp.password =  dados_form['password']
-            cp.save()
+
+            # Cria variavel com paramiko SSH
+            client = paramiko.SSHClient()
+
+            # Carrega as chaves de conexao conhecida do sistema
+            client.load_system_host_keys()
+            client.set_missing_host_key_policy(paramiko.WarningPolicy)  
+
+            # Verifica conexao
+            try:
+                client.connect(dados_form['ip'], "22", dados_form['userLogin'], dados_form['password'], timeout = 3)
+                cp = Computer.objects.get(id = computer_id)
+                cp.name = dados_form['name']
+                cp.ip = dados_form['ip']
+                cp.status = 1
+                cp.userLogin =  dados_form['userLogin']
+                cp.user =  dados_form['user']
+                cp.password =  dados_form['password']
+                cp.save()
+            
+            except:
+                cp = Computer.objects.get(id = computer_id)
+                cp.name = dados_form['name']
+                cp.ip = dados_form['ip']
+                cp.status = 0
+                cp.userLogin =  dados_form['userLogin']
+                cp.user =  dados_form['user']
+                cp.password =  dados_form['password']
+                cp.save()
+
             return redirect('home')
 
         return render(req, self.template_name, {'form' : form })
@@ -54,7 +80,26 @@ class ComputerViewAdd(View):
         # Verifica validacao
         if form.is_valid():
             dados_form = form.data
-            computer = Computer.objects.create(name = dados_form['name'],ip =  dados_form['ip'],userLogin =  dados_form['userLogin'],user = dados_form['user'], password = dados_form['password'])
+            
+            # Cria variavel com paramiko SSH
+            client = paramiko.SSHClient()
+
+            # Carrega as chaves de conexao conhecida do sistema
+            client.load_system_host_keys()
+            client.set_missing_host_key_policy(paramiko.WarningPolicy)  
+
+            # Verifica conexao
+            try:        
+                client.connect(dados_form['ip'], "22", dados_form['userLogin'], dados_form['password'], timeout = 3)
+                st = 1
+                computer = Computer.objects.create(name = dados_form['name'],ip =  dados_form['ip'],userLogin =  dados_form['userLogin'],user = dados_form['user'], password = dados_form['password'], status = st)
+            except:
+                st = 0
+                computer = Computer.objects.create(name = dados_form['name'],ip =  dados_form['ip'],userLogin =  dados_form['userLogin'],user = dados_form['user'], password = dados_form['password'], status = st)
+
+            # Encerra conexao
+            client.close()
+ 
             computer.save()
             return redirect('home')
 

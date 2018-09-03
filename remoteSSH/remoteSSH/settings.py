@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'remote',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'arthur_mac',
+        'PASSWORD': '123',
         'HOST': '127.0.0.1',
         'PORT': '', # 8000 is default
     }

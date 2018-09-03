@@ -75,7 +75,7 @@ class HomeSSHView(TemplateView):
                     client.connect(hostname, "22", user, password)
 
                     # Executa comando
-                    client.exec_command(command)
+                    stdin, stdout, stderr = client.exec_command(command)
 
                     # Encerra conexaos
                     client.close()

@@ -84,10 +84,14 @@
                                     <div id="computerName{{computer.id}}" class="text-center">{{computer.name}}</div>
                                 </td>
                                 <td>
-                                    <div id="computerUser{{computer.id}}" class="text-center">{{computer.user}}</div>
+                                    <div id="computerUser{{computer.id}}" class="text-center">{{computer.userLogin}}</div>
                                 </td>
                                 <td>
+                                    {% if computer.status == 0 %}
                                     <div class="text-center"><i class="far fa-circle" style="color: red"></i></div>
+                                    {% else %}
+                                    <div class="text-center"><i class="far fa-circle" style="color: green"></i></div>
+                                    {% endif %}
                                 </td>
                                 <td>
                                     <div class="text-center"><a href="{% url 'computerEdit' computer.id %}"><i class="fas fa-pen"
