@@ -11,7 +11,7 @@
     <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
         crossorigin="anonymous">
-    <title>Pagina Principal</title>
+    <title>Principal</title>
 </head>
 
 <body>
@@ -45,16 +45,16 @@
                                     <div class="text-center">Hostname
                                 </th>
                                 <th scope="col">
-                                    <div class="text-center">User
+                                    <div class="text-center">Usuário
                                 </th>
                                 <th scope="col">
                                     <div class="text-center">Status
                                 </th>
                                 <th scope="col">
-                                    <div class="text-center">Edit
+                                    <div class="text-center">Editar
                                 </th>
                                 <th scope="col">
-                                    <div class="text-center">Select
+                                    <div class="text-center">Selecionar
                                 </th>
                             </tr>
                         </thead>
@@ -65,10 +65,10 @@
                                     <div class="text-center">{{computer.ip}}</div>
                                 </td>
                                 <td>
-                                    <div class="text-center">{{computer.name}}</div>
+                                    <div id="computerName{{computer.id}}" class="text-center">{{computer.name}}</div>
                                 </td>
                                 <td>
-                                    <div class="text-center">{{computer.user}}</div>
+                                    <div id="computerUser{{computer.id}}" class="text-center">{{computer.user}}</div>
                                 </td>
                                 <td>
                                     <div class="text-center"><i class="far fa-circle" style="color: red"></i></div>
@@ -96,19 +96,19 @@
                                 <thead class="thead-dark">
                                     <tr>
                                         <th scope="col">
-                                            <div class="text-center">Category >_</div>
+                                            <div class="text-center">Categoria >_</div>
                                         </th>
                                         <th scope="col">
-                                            <div class="text-center">Name >_ </div>
+                                            <div class="text-center">Apelido >_ </div>
                                         </th>
                                         <th scope="col">
-                                            <div class="text-center">Command >_ </div>
+                                            <div class="text-center">Comando >_ </div>
                                         </th>
                                         <th scope="col">
-                                            <div class="text-center">Edit >_ </div>
+                                            <div class="text-center">Editar >_ </div>
                                         </th>
                                         <th scope="col">
-                                            <div class="text-center">Select >_ </div>
+                                            <div class="text-center">Selecionar >_ </div>
                                         </th>
                                     </tr>
                                 </thead>
@@ -119,7 +119,7 @@
                                             <div class="text-center">{{command.category}}</div>
                                         </th>
                                         <td>
-                                            <div class="text-center">{{command.name}}</div>
+                                            <div id="commandName{{command.id}}" class="text-center">{{command.name}}</div>
                                         </td>
                                         <td>
                                             <div class="text-center">{{command.command}}</div>
@@ -144,9 +144,35 @@
                     </div>
                     <div class="row justify-content-center" style="margin-bottom: 5px;">
                         <div class="col-2">
-                            <button type="submit" id="buttonSend" class="btn btn-warning btn-lg btn-block"><i class="fas fa-exclamation"></i>
-                                Send</button>
+                            <button type="button" id="buttonBeforeSend" class="btn btn-warning btn-lg btn-block">
+                                <i class="fas fa-exclamation"></i> Enviar <i class="fas fa-exclamation"></i>
+                            </button>
                         </div>
+                    </div>
+                    <div class="modal fade" id="validacao" tabindex="-1" role="dialog" >
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-body font-weight-bold text-monospace">
+                                        Deseja enviar os comandos para as máquinas?
+                                </div>
+                                <div class="modal-footer ">
+                                    <button id="buttonSend" type="submit" class="btn btn-primary">Enviar</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                </div>
+                              </div>
+                            </div>
+                    </div>
+                    <div class="modal fade" id="erro" tabindex="-1" role="dialog" >
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                              <div class="modal-content">
+                                <div class="modal-body">
+                                    <div id="msgErro" class="font-weight-bold text-monospace"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Okay</button>
+                                </div>
+                              </div>
+                            </div>
                     </div>
         </form>
         </div>
@@ -154,8 +180,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/personal.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/ajaxEventSSH.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/tables.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/events.js' %}"></script>
 </body>
 
 </html>

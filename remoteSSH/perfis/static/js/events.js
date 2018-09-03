@@ -1,4 +1,6 @@
-
+/**
+ * Envia requisicao ajax
+ */
 $(document).ready(function () {
 
 	/* Pega evento de button click e chama metodo*/
@@ -21,6 +23,48 @@ $(document).ready(function () {
 	}); 
 	
 });
+
+/**
+ * Verifica maquina e comandos para confirmacao do usuario.
+ */
+$("#buttonBeforeSend").click(function(){
+
+	// Recebe checkeds
+	var computers = getValueComputer();
+	var commands = getValueCommand();
+
+	// Verifica se foram seleciona computadores e comandos
+	if(computers.length > 0 && commands.length > 0){
+
+		$('#validacao').modal('show');
+
+	}else{
+
+		// Erro em ambos os campos
+		if(computers.length == 0 && commands.length == 0 ){
+
+			$('#erro').modal('show');
+			$('#msgErro').text("Selecione o(s) computadores e o(s) comandos!");
+
+
+		// Erro em computadores
+		}else if(computers.length == 0) {
+
+			$('#erro').modal('show');
+			$('#msgErro').text("Selecione o(s) computadores!");
+
+		// Erro em comandos
+		}else{
+
+			$('#erro').modal('show');
+			$('#msgErro').text("Selecione o(s) comandos!");
+
+		}
+
+	}
+
+});
+
 
 /* Pega valores de computeadores */
 function getValueComputer(){

@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <title>Page Command</title>
+    <title>Comandos</title>
 </head>
 
 <body>
@@ -40,31 +41,31 @@
 
             <div class="form-row">
                 <div class="col form-group">
-                    <label for="Category">Category</label>
+                    <label for="Category">Categoria: </label>
                     {% if command %}
-                    <input value="{{command.category}}" name="category" type="text" class="form-control" placeholder="Category" autocomplete="off" />
+                    <input value="{{command.category}}" name="category" type="text" class="form-control" placeholder="Category" autocomplete="off" required/>
                     {% else %}
-                    <input type="text" name="category" class="form-control" placeholder="Category" autocomplete="off" />
+                    <input type="text" name="category" class="form-control" placeholder="Category" autocomplete="off"required />
                     {% endif %}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
-                    <label for="Name">Name</label>
+                    <label for="Name">Apelido para o comando: </label>
                     {% if command %}
-                    <input value="{{command.name}}" name="name" type="text" class="form-control" placeholder="Name" autocomplete="off" />
+                    <input value="{{command.name}}" name="name" type="text" class="form-control" placeholder="Name" autocomplete="off" required/>
                     {% else %}
-                    <input type="text" name="name" class="form-control" placeholder="Name" autocomplete="off" />
+                    <input type="text" name="name" class="form-control" placeholder="Name" autocomplete="off" required/>
                     {% endif %}
                 </div>
             </div>
             <div class="form-row">
                 <div class="col form-group">
-                    <label for="Command">Command</label>
+                    <label for="Command">Comando: </label>
                     {% if command %}
-                    <input value="{{command.command}}" name="command" type="text" class="form-control" placeholder="Command" autocomplete="off" />
+                    <input value="{{command.command}}" name="command" type="text" class="form-control" placeholder="Command" autocomplete="off" required />
                     {% else %}
-                    <input type="text" name="command" class="form-control" placeholder="Command" autocomplete="off" />
+                    <input type="text" name="command" class="form-control" placeholder="Command" autocomplete="off" required />
                     {% endif %}
                 </div>
             </div>
@@ -91,6 +92,7 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'js/eventsCommand.js' %}"></script>
 </body>
 
 </html>
