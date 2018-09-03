@@ -21,15 +21,28 @@
                     <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home" style="color: white"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'computerAdd' %}"><i class="fas fa-desktop " style="color: green"></i></a>
+                    <a class="nav-link" href="{% url 'computerAdd' %}"><i class="fas fa-desktop " style="color: #00D339"></i></a>
                 </li>
             </ul>
+            <div class="container">
+                    <ul class="nav navbar-nav justify-content-center">
+                        <li class="nav-item" style="color: #A8A8BC; margin-right: 10px;">
+                            <i class="fab fa-apple fa-2x"></i>
+                        </li>
+                        <li class="nav-item">
+                            <i class="fab fa-linux fa-2x" style="color: white;"></i>
+                        </li>
+                        <li class="nav-item">
+                            <i class="fab fa-windows fa-2x" style="color: #00B6F8; margin-left: 10px;"></i>
+                        </li>
+                    </ul>
+            </div>
             <span class="navbar-text">
                  <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-unlock-alt" style="color: red"></i></a>
             </span>
         </div>
     </nav>
-    <div class="container-fluid" style="position:fixed; top: 13%">
+    <div class="container-fluid" style="position:fixed; top: 18%">
     <div class="col-6 offset-md-3">
         {% if command %}
         <form action="{% url 'commandEdit' command.id %}" method="POST">
