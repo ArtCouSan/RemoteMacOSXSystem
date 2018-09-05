@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from command.models import Command
 from computer.models import Computer
 from django.views.generic.base import View
 from computer.forms import ComputerForm
@@ -9,7 +10,12 @@ import sys
 # Remover computador pelo id
 def computerRemove(req, computer_id):
     computer = Computer.objects.filter(id = computer_id).delete()
-    return redirect('home')
+
+    # Valores para tabela na pagina principal
+    commands = Command.objects.all()
+    computers = Computer.objects.all()
+
+    return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Computador excluido com sucesso."})
 
 # Edicao e apresentacao de page edit
 class ComputerViewEdit(View):
@@ -59,7 +65,11 @@ class ComputerViewEdit(View):
                 cp.password =  dados_form['password']
                 cp.save()
 
-            return redirect('home')
+            # Valores para tabela na pagina principal
+            commands = Command.objects.all()
+            computers = Computer.objects.all()
+
+            return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Computador editado com sucesso."})
 
         return render(req, self.template_name, {'form' : form })
 
@@ -100,7 +110,13 @@ class ComputerViewAdd(View):
             # Encerra conexao
             client.close()
  
+            # Salva processo no banco
             computer.save()
-            return redirect('home')
+            
+            # Valores para tabela na pagina principal
+            commands = Command.objects.all()
+            computers = Computer.objects.all()
+
+            return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Computador adicionado com sucesso."})
 
         return render(req, self.template_name, {'form' : form })

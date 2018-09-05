@@ -6,4 +6,5 @@ urlpatterns = [
     path('', include('perfis.urls')),
     path('', include('computer.urls')),
     path('', include('command.urls')),
+    path('', include('reports.urls')),
 ]

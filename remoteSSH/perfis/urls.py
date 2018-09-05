@@ -1,6 +1,6 @@
 from django.urls import include,  path
 from django.contrib import admin
-from perfis.views import HomeSSHView
+from perfis.views import HomeSSHView, ResultsSSHView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -9,5 +9,7 @@ urlpatterns = [
     # Logout
     path('logout/', auth_views.LogoutView.as_view(),  name='logout'),
     # Home
-    path('home/',HomeSSHView.as_view(template_name="pagina_principal.html"), name='home')
+    path('home/',HomeSSHView.as_view(template_name="pagina_principal.html"), name='home'),
+    # Result from command
+    path('result/', ResultsSSHView.as_view(template_name='pagina_retornoSSH.html'), name='result')
 ]

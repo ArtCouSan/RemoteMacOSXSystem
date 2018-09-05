@@ -3,15 +3,16 @@ from django.views.generic import TemplateView
 from command.models import Command
 from computer.models import Computer
 from django.contrib.auth.decorators import login_required
+from perfis.ssh import *
+from perfis.models import Result
 import paramiko
 import sys
 
 def login(req):
     return render(req, 'login.html')
 
-
 class HomeSSHView(TemplateView):
-
+ 
     template_name = 'pagina_principal.html'
 
     def get(self, req):
@@ -19,6 +20,9 @@ class HomeSSHView(TemplateView):
         # Valores para tabela na pagina principal
         commands = Command.objects.all()
         computers = Computer.objects.all()
+
+        # Verifica e muda os status dos computadores
+        verifyConnection(computers)
 
         return render(req, self.template_name, { "computers": computers,"commands": commands})
 
@@ -29,13 +33,16 @@ class HomeSSHView(TemplateView):
         commands = Command.objects.all()
         computers = Computer.objects.all()
 
+        # Deleta comandos da ultima requisicao
+        Result.objects.all().delete()
+
         # Verifica requisicao
         if req.method == 'POST':
 
             # Arrays para receber computadores do banco
             computersArrays = []
             commandsArrays = []
-        
+
             # Declara variavel com dados da requisicao ajax
             computersIdArrays = req.POST.getlist('computers[]')
             commandsIdArrays = req.POST.getlist('commands[]')
@@ -70,19 +77,60 @@ class HomeSSHView(TemplateView):
                     # Carrega as chaves de conexao conhecida do sistema
                     client.load_system_host_keys()
                     client.set_missing_host_key_policy(paramiko.WarningPolicy)  
+                    
+                    # Testa conexao
+                    try:
 
-                    # Cria conexao com a maquina              
-                    client.connect(hostname, "22", user, password)
+                        # Cria conexao com a maquina             
+                        client.connect(hostname, "22", user, password, timeout = 3)
 
-                    # Executa comando
-                    stdin, stdout, stderr = client.exec_command(command)
+                        # Verifica comando
+                        try:
 
-                    # Encerra conexaos
-                    client.close()
+                            # Executa comando 
+                            stdin, stdout, stderr = client.exec_command(command)
+                        
+                            # Verifica saida
+                            if stdout.channel.recv_exit_status() == 0:
 
-            return render(req, self.template_name, { "computers": computers,"commands": commands})
+                                # Salva resultado
+                                strResult = '{} realizou com sucesso o comando {}'.format(cp.ip, cm.name)
+                                result = Result.objects.create(result = strResult)
+                                result.save()
+                                
+                        # Erro de comando
+                        except:
+
+                            # Salva resultado
+                            strResult = '{} efetuou com erro o comando: {} (Comando invalido ou falha de permissao)'.format(cp.ip, cm.name)
+                            result = Result.objects.create(result = strResult)
+                            result.save()
+            
+                        # Encerra conexaos
+                        client.close()
+
+                    # Erro de conexao
+                    except:
+
+                        # Salva resultado
+                        strResult = '{} efetuou com erro o comando: {} (Falha de conexao)'.format(cp.ip, cm.name)
+                        result = Result.objects.create(result = strResult)
+                        result.save()                  
+
+            return redirect("result")
             
         else:
             
             return render(req, self.template_name, { "computers": computers,"commands": commands})
+
+class ResultsSSHView(TemplateView):
+
+    template_name = 'pagina_retornoSSH.html'
+
+    def get(self, req):
+        results = Result.objects.all()
+        return render(req, self.template_name, { "results": results})
+        
+
+    
 
