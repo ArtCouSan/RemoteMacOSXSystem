@@ -29,7 +29,7 @@
                     <a class="nav-link" href="{% url 'commandAdd' %}"><i class="fas fa-terminal " style="color:#FFBC00"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-chart-pie " style="color: #FF4A49"></i></a>
+                    <a class="nav-link" href="{% url 'report' %}"><i class="fas fa-chart-pie " style="color: #FF4A49"></i></a>
                 </li>
             </ul>
             <div class="container">
@@ -53,7 +53,7 @@
     <div class="container-fluid" style="position:absolute; top: 20%">
         <table class="table table-bordered">
             <thead>
-              <tr class="bg-info">
+              <tr style="background: #79A8AF">
                 <th scope="col">#</th>
                 <th scope="col">Resultado da ultima requisição</th>
               </tr>

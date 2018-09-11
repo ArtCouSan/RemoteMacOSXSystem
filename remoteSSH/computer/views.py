@@ -12,7 +12,7 @@ def computerRemove(req, computer_id):
     computer = Computer.objects.filter(id = computer_id).delete()
 
     # Valores para tabela na pagina principal
-    commands = Command.objects.all()
+    commands = Command.objects.filter(report = 0)
     computers = Computer.objects.all()
 
     return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Computador excluido com sucesso."})
@@ -66,7 +66,7 @@ class ComputerViewEdit(View):
                 cp.save()
 
             # Valores para tabela na pagina principal
-            commands = Command.objects.all()
+            commands = Command.objects.filter(report = 0)
             computers = Computer.objects.all()
 
             return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Computador editado com sucesso."})
@@ -114,7 +114,7 @@ class ComputerViewAdd(View):
             computer.save()
             
             # Valores para tabela na pagina principal
-            commands = Command.objects.all()
+            commands = Command.filter(report = 0)
             computers = Computer.objects.all()
 
             return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Computador adicionado com sucesso."})

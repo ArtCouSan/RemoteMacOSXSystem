@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('ip', models.CharField(max_length=50)),
-                ('status', models.BinaryField()),
+                ('status', models.IntegerField()),
                 ('user', models.CharField(max_length=50, null=True)),
                 ('userLogin', models.CharField(max_length=50, null=True)),
                 ('password', models.CharField(max_length=50, null=True)),

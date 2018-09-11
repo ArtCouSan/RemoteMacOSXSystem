@@ -18,6 +18,7 @@ class Migration(migrations.Migration):
                 ('command', models.CharField(max_length=300)),
                 ('category', models.CharField(max_length=150)),
                 ('name', models.CharField(max_length=50)),
+                ('report', models.IntegerField(max_length=50)),
             ],
         ),
     ]

@@ -5,5 +5,5 @@ from . import views
 
 urlpatterns = [
     # List reports
-    path('reports',  ReportsView.as_view(), name="reports")
+    path('report/',  ReportsView.as_view(), name="report")
 ]

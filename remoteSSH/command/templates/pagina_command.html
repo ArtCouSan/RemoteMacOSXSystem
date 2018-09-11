@@ -24,7 +24,7 @@
                     <a class="nav-link" href="{% url 'computerAdd' %}"><i class="fas fa-desktop " style="color: #00D339"></i></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fas fa-chart-pie " style="color: #FF4A49"></i></a>
+                    <a class="nav-link" href="{% url 'report' %}"><i class="fas fa-chart-pie " style="color: #FF4A49"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'result' %}" ><i class="fas fa-sync " style="color: #B3E7ED"></i></a>
@@ -87,7 +87,17 @@
                     <input type="text" name="command" class="form-control" placeholder="Command" autocomplete="off" required />
                     {% endif %}
                 </div>
+                <div class="col-2 form-group">
+                    <label for="report">Report ? </label>
+                    <select name="report" class="form-control" id="report" required>
+                        <option value="1">Sim</option>
+                        <option value="0">Não</option>
+                    </select>
+                </div>
             </div>
+            <div class="form-group">
+                   
+                  </div>
             <div class="form-row justify-content-center">
                     <button type="submit" style="margin:5px;"  id="buttonBeforeSendSave"  class="btn btn-success">Salvar</button>
                     {% if command %}
