@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <title>Comandos</title>
+    <title>Reports</title>
 </head>
 
 <body>
@@ -24,13 +24,13 @@
                     <a class="nav-link" href="{% url 'computerAdd' %}"><i class="fas fa-desktop " style="color: #00D339"></i></a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'commandAdd' %}"><i class="fas fa-terminal" style="color: #FFBC00"></i></a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'report' %}"><i class="fas fa-chart-pie " style="color: #FF4A49"></i></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'result' %}" ><i class="fas fa-sync " style="color: #B3E7ED"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'reportAdd' %}" ><i class="fas fa-archive " style="color: #B3E7ED"></i></a>
                 </li>
             </ul>
             <div class="container">
@@ -53,29 +53,18 @@
     </nav>
     <div class="container-fluid" style="position:fixed; top: 18%">
     <div class="col-6 offset-md-3">
-        {% if command %}
-        <form action="{% url 'commandEdit' command.id %}" method="POST">
+        {% if report %}
+        <form action="{% url 'reportEdit' report.id %}" method="POST">
         {% else %}
-        <form action="{% url 'commandAdd' %}"  method="POST">  
+        <form action="{% url 'reportAdd' %}"  method="POST">  
         {% endif %}
 
         {% csrf_token %}
-
-            <div class="form-row">
-                <div class="col form-group">
-                    <label for="Category">Categoria: </label>
-                    {% if command %}
-                    <input value="{{command.category}}" name="category" type="text" class="form-control" placeholder="Category" autocomplete="off" required/>
-                    {% else %}
-                    <input type="text" name="category" class="form-control" placeholder="Category" autocomplete="off"required />
-                    {% endif %}
-                </div>
-            </div>
             <div class="form-row">
                 <div class="col form-group">
                     <label for="Name">Apelido para o comando: </label>
-                    {% if command %}
-                    <input value="{{command.name}}" name="name" type="text" class="form-control" placeholder="Name" autocomplete="off" required/>
+                    {% if report %}
+                    <input value="{{report.name}}" name="name" type="text" class="form-control" placeholder="Name" autocomplete="off" required/>
                     {% else %}
                     <input type="text" name="name" class="form-control" placeholder="Name" autocomplete="off" required/>
                     {% endif %}
@@ -83,9 +72,19 @@
             </div>
             <div class="form-row">
                 <div class="col form-group">
+                    <label for="Condição">Condição: </label>
+                    {% if report %}
+                    <input value="{{report.condition}}" name="condition" type="text" class="form-control" placeholder="Condition" autocomplete="off" required/>
+                    {% else %}
+                    <input type="text" name="condition" class="form-control" placeholder="Condition" autocomplete="off"required />
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col form-group">
                     <label for="Command">Comando: </label>
-                    {% if command %}
-                    <input value="{{command.command}}" name="command" type="text" class="form-control" placeholder="Command" autocomplete="off" required />
+                    {% if report %}
+                    <input value="{{report.command}}" name="command" type="text" class="form-control" placeholder="Command" autocomplete="off" required />
                     {% else %}
                     <input type="text" name="command" class="form-control" placeholder="Command" autocomplete="off" required />
                     {% endif %}
@@ -95,9 +94,9 @@
                    
                   </div>
             <div class="form-row justify-content-center">
-                    <button type="submit" style="margin:5px;"  id="buttonBeforeSendSave"  class="btn btn-success">Salvar</button>
-                    {% if command %}
-                    <a style="margin:5px;" class="btn btn-danger" href="{% url 'commandRemove' command.id %}">Excluir</a>  
+                    <button type="submit" style="margin:5px;"  id="buttonSendSave"  class="btn btn-success">Salvar</button>
+                    {% if report %}
+                    <a style="margin:5px;" class="btn btn-danger" href="{% url 'reportRemove' report.id %}">Excluir</a>  
                     {% endif %}
             </div>
         </form>
@@ -108,9 +107,7 @@
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
-    <script type="text/javascript" src="{% static 'js/eventsCommand.js' %}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"></script>
 </body>
 
 </html>

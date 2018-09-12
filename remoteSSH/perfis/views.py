@@ -18,7 +18,7 @@ class HomeSSHView(TemplateView):
     def get(self, req):
 
         # Valores para tabela na pagina principal
-        commands = Command.objects.filter(report = 0)
+        commands = Command.objects.all()
         computers = Computer.objects.all()
 
         # Verifica e muda os status dos computadores
@@ -30,7 +30,7 @@ class HomeSSHView(TemplateView):
     def post(self, req):
 
         # Valores para tabela na pagina principal 
-        commands = Command.objects.filter(report = 0)
+        commands = Command.objects.all()
         computers = Computer.objects.all()
 
         # Deleta comandos da ultima requisicao

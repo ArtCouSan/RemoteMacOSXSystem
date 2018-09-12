@@ -25,8 +25,9 @@ SECRET_KEY = ')e3^x*pyy&!no%swxqwh2za^f7cj)bml&r#mf1f19f5a+j&@s8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# Colocar seu host
+# Rodar python3 manage.py runserver 192.168.15.8:8000
+ALLOWED_HOSTS = ['192.168.15.8', 'localhost', '127.0.0.1']
 
 # Application definition
 

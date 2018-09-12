@@ -31,6 +31,9 @@
                 <li class="nav-item">
                         <a class="nav-link" href="{% url 'result' %}" ><i class="fas fa-sync " style="color: #B3E7ED"></i></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'reportAdd' %}" ><i class="fas fa-archive " style="color: #B3E7ED"></i></a>
+                </li>
             </ul>
             <div class="container">
                     <ul class="nav navbar-nav justify-content-center">
@@ -110,14 +113,17 @@
             </div>
             <div class="row">
                         <div class="col">
-                            <table class="table table-bordered table-sm table-striped" id="tableCommand">
+                            <table class="table table-bordered table-sm table-striped" id="tableReport">
                                 <thead style="background: #992835">
                                     <tr>
                                         <th scope="col">
-                                            <div class="text-center">Categoria >_</div>
+                                            <div class="text-center">Apelido >_ </div>
                                         </th>
                                         <th scope="col">
-                                            <div class="text-center">Apelido >_ </div>
+                                            <div class="text-center">Comando >_ </div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="text-center">Condição >_ </div>
                                         </th>
                                         <th scope="col">
                                             <div class="text-center">Editar >_ </div>
@@ -128,23 +134,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if commands %} {% for command in commands%}
+                                    {% if reports %} {% for report in reports%}
                                     <tr>
                                         <th>
-                                            <div class="text-center">{{command.category}}</div>
+                                            <div id="reportName{{report.id}}" class="text-center">{{report.name}}</div>
                                         </th>
                                         <td>
-                                            <div id="commandName{{command.id}}" class="text-center">{{command.name}}</div>
+                                            <div  class="text-center">{{report.command}}</div>
                                         </td>
                                         <td>
-                                            <div class="text-center"><a href="{% url 'commandEdit' command.id %}"><i class="fas fa-pen"
+                                            <div  class="text-center">{{report.condition}}</div>
+                                        </td>
+                                        <td>
+                                            <div class="text-center"><a href="{% url 'reportEdit' report.id %}"><i class="fas fa-pen"
                                                         style="color: black"></i></a></div>
                                         </td>
                                         <td>
                                             <div class="text-center">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" value="{{command.id}}" id="command{{command.id}}">
-                                                    <label class="custom-control-label" for="command{{command.id}}">+</label>
+                                                    <input type="checkbox" class="custom-control-input" value="{{report.id}}" id="report{{report.id}}">
+                                                    <label class="custom-control-label" for="report{{report.id}}">+</label>
                                                 </div>
                                             </div>
                                         </td>
@@ -156,7 +165,7 @@
             </div>
                 <div class="row justify-content-center" style="margin-bottom: 5px;">
                      <div class="col-2">
-                        <button type="submit" id="buttonBeforeSend" class="btn btn-warning btn-lg btn-block">
+                        <button type="submit" id="buttonSend" class="btn btn-warning btn-lg btn-block">
                             Verificar maquinas
                         </button>
                     </div>
@@ -168,7 +177,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="{% static 'js/datatables.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/tables.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/events.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/eventsReports.js' %}"></script>
 </body>
 
 </html>

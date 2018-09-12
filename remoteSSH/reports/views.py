@@ -5,8 +5,15 @@ from computer.models import Computer
 from django.contrib.auth.decorators import login_required
 from perfis.ssh import *
 from perfis.models import Result
+from reports.reportLab import geraPdf
+from reports.forms import ReportForm
+from reports.models import Report
 import paramiko
 import sys
+from reportlab.pdfgen import canvas
+from django.views.generic import View
+
+# Exemplo de report [[ 0 -eq $(comando) ]] && echo 1
 
 class ReportsView(TemplateView):
  
@@ -15,19 +22,22 @@ class ReportsView(TemplateView):
     def get(self, req):
 
         # Valores para tabela na pagina principal
-        commands = Command.objects.filter(report = 1)
+        reports = Report.objects.all()
         computers = Computer.objects.all()
 
         # Verifica e muda os status dos computadores
         verifyConnection(computers)
 
-        return render(req, self.template_name, { "computers": computers,"commands": commands})
+        return render(req, self.template_name, { "computers": computers,"reports": reports})
 
     def post(self, req):
         
         # Valores para tabela na pagina principal 
-        commands = Command.objects.filter(report = 1)
+        commands = Command.objects.all()
         computers = Computer.objects.all()
+
+        # Array com reports
+        reportsArray = []
 
         # Deleta comandos da ultima requisicao
         Result.objects.all().delete()
@@ -37,30 +47,30 @@ class ReportsView(TemplateView):
 
             # Arrays para receber computadores do banco
             computersArrays = []
-            commandsArrays = []
+            reportsArrays = []
 
             # Declara variavel com dados da requisicao ajax
             computersIdArrays = req.POST.getlist('computers[]')
-            commandsIdArrays = req.POST.getlist('commands[]')
+            reportsIdArrays = req.POST.getlist('reports[]')
 
             # Preenche array com computadores buscados no banco
             for cpId in computersIdArrays:
                 i = Computer.objects.get(id = cpId)
                 computersArrays.append(i)
 
-            # Preenche array com comandos buscados no banco
-            for cmId in commandsIdArrays:
-                k = Command.objects.get(id = cmId)
-                commandsArrays.append(k)
+            # Preenche array com reports buscados no banco
+            for rpId in reportsIdArrays:
+                k = Report.objects.get(id = rpId)
+                reportsArrays.append(k)
 
             # Cria variavel com paramiko SSH
             client = paramiko.SSHClient()
 
             # Loop nos computadores 
             for cp in computersArrays:
-
+  
                 # Loop nos commandos
-                for cm in commandsArrays:
+                for rp in reportsArrays:
 
                     # Declara atributo da conexao
                     user = str(cp.user)
@@ -68,7 +78,7 @@ class ReportsView(TemplateView):
                     password = str(cp.password)
 
                     # Declara comando
-                    command = str(cm.command)
+                    command = str(rp.command)
 
                     # Carrega as chaves de conexao conhecida do sistema
                     client.load_system_host_keys()
@@ -85,20 +95,24 @@ class ReportsView(TemplateView):
 
                             # Executa comando 
                             stdin, stdout, stderr = client.exec_command(command)
-                        
+
+                            print("xxxxx")
                             # Verifica saida
-                            if stdout.channel.recv_exit_status() == 0:
+                            if stdout.read().decode('ascii').strip("\n") == rp.condition:
 
                                 # Salva resultado
-                                strReport = 'Maquina {} com comando ( {} ) habilitado'.format(cp.ip, cm.name)
-            
-                                
+                                strReport = 'Maquina {} com comando ( {} ) habilitado'.format(cp.ip, rp.name)
+
+                                reportsArray.append(strReport)
+                            
                         # Erro de comando
                         except:
 
                             # Salva resultado
-                            strReport = 'Sem acesso a maquina {} para validar o comando: {} (Comando invalido ou falha de permissão)'.format(cp.ip, cm.name)
+                            strReport = 'Sem acesso a maquina {} para validar o comando: {} (Comando invalido ou falha de permissão)'.format(cp.ip, rp.name)
             
+                            reportsArray.append(strReport)
+
                         # Encerra conexaos
                         client.close()
 
@@ -106,10 +120,84 @@ class ReportsView(TemplateView):
                     except:
 
                         # Salva resultado
-                        strReport = 'Sem acesso a maquina {} para validar o comando: {} (Falha de conexão)'.format(cp.ip, cm.name)
+                        strReport = 'Sem acesso a maquina {} para validar o comando: {} (Falha de conexão)'.format(cp.ip, rp.name)
+
+                        reportsArray.append(strReport)
+
+            geraPdf(canvas, reportsArray)
                              
-            return redirect("report")
+            return redirect("home")
             
         else:
             
-            return render(req, self.template_name, { "computers": computers,"commands": commands})
+            return redirect("home")
+
+# Remover report pelo id
+def reportRemove(req, report_id):
+    report = Report.objects.filter(id = report_id).delete()
+
+    # Valores para tabela na pagina principal
+    commands = Command.objects.all()
+    computers = Computer.objects.all()
+
+    return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Report  excluido com sucesso."})
+
+# Edicao e apresentacao de page edit
+class ReportViewEdit(View):
+
+    template_name = 'pagina_report.html'
+
+    # Retorna pagina de edicao com comando buscado
+    def get(self, req, report_id):
+        report = Report.objects.get(id = report_id)
+        return render(req, self.template_name,  {"report": report })
+    
+    # Atualiza no banco o report com validacao
+    def post(self, req, report_id):
+
+        form = ReportForm(req.POST)
+
+        if form.is_valid():
+            dados_form = form.data
+            rp = Report.objects.get(id = report_id)
+            rp.condition = dados_form['condition']
+            rp.name = dados_form['name']
+            rp.command = dados_form['command']
+            rp.save()
+            
+            # Valores para tabela na pagina principal
+            commands = Command.objects.all()
+            computers = Computer.objects.all()
+
+            return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Report editado com sucesso."})
+
+        return render(req, self.template_name, {'form' : form })
+
+# Adiciona report
+class ReportViewAdd(View):
+
+    template_name = 'pagina_report.html'
+
+    # Retorna pagina para adicao de report
+    def get(self, req):
+        return render(req, self.template_name)
+    
+    # Adiciona comando
+    def post(self, req):
+
+        form = ReportForm(req.POST)
+
+        # Verifica validacao
+        if form.is_valid():
+            dados_form = form.data
+            report = Report.objects.create(condition = dados_form['condition'],name = dados_form['name'],command = dados_form['command'])
+            report.save()
+            
+            # Valores para tabela na pagina principal
+            commands = Command.objects.all()
+            computers = Computer.objects.all()
+
+            return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Report editado com sucesso."})
+
+
+        return render(req, self.template_name, {'form' : form })

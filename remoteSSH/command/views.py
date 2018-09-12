@@ -10,7 +10,7 @@ def commandRemove(req, command_id):
     command = Command.objects.filter(id = command_id).delete()
 
      # Valores para tabela na pagina principal
-    commands = Command.objects.filter(report = 0)
+    commands = Command.objects.all()
     computers = Computer.objects.all()
 
     return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Comando excluido com sucesso."})
@@ -36,12 +36,11 @@ class CommandViewEdit(View):
             cm.category = dados_form['category']
             cm.name = dados_form['name']
             cm.command = dados_form['command']
-            cm.report = dados_form['report']
             cm.save()
 
             
             # Valores para tabela na pagina principal
-            commands = Command.objects.filter(report = 0)
+            commands = Command.objects.all()
             computers = Computer.objects.all()
 
             return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Comando editado com sucesso."})
@@ -65,11 +64,11 @@ class CommandViewAdd(View):
         # Verifica validacao
         if form.is_valid():
             dados_form = form.data
-            command = Command.objects.create(category = dados_form['category'],name = dados_form['name'],command = dados_form['command'], report = dados_form['report'])
+            command = Command.objects.create(category = dados_form['category'],name = dados_form['name'],command = dados_form['command'])
             command.save()
             
             # Valores para tabela na pagina principal
-            commands = Command.objects.filter(report = 0)
+            commands = Command.objects.all()
             computers = Computer.objects.all()
 
             return render(req, 'pagina_principal.html', { "computers": computers,"commands": commands, "event": 1, "msg": "Comando editado com sucesso."})
