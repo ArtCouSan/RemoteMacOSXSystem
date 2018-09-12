@@ -1,0 +1,74 @@
+[
+    {
+      "model": "command.command",
+      "pk": 1,
+      "fields": {
+        "command": "defaults write /Library/Preferences/com.apple.loginwindow.plist SHOWFULLNAME 0",
+        "category": "Login Screen",
+        "name": "Login Screen User and Password"
+      }
+    },
+    {
+        "model": "command.command",
+        "pk": 2,
+        "fields": {
+          "command": "defaults write /Library/Preferences/com.apple.loginwindow AdminHostInfo HostName",
+          "category": "Login Screen",
+          "name": "Show System Info at the Login Screen"
+        }
+    },
+    {
+        "model": "command.command",
+        "pk": 3,
+        "fields": {
+          "command": "defaults write com.apple.screencapture location ~/Pictures/Screenshots",
+          "category": "Screen Shots",
+          "name": "Change Local Save"
+        }
+    },
+    {
+        "model": "command.command",
+        "pk": 4,
+        "fields": {
+          "command": "defaults write com.apple.screencapture type jpg && killall SystemUIServer",
+          "category": "Screen Shots",
+          "name": "Change Extension"
+        }
+    },
+    {
+        "model": "command.command",
+        "pk": 5,
+        "fields": {
+          "command": "chflags nohidden ~/Library/",
+          "category": "Directory",
+          "name": "Hidden Folder"
+        }
+    },
+    {
+        "model": "command.command",
+        "pk": 6,
+        "fields": {
+          "command": "chflags nohidden ~/Library/",
+          "category": "Directory",
+          "name": "Remove Hidden Folder"
+        }
+    },
+    {
+        "model": "reports.report",
+        "pk": 1,
+        "fields": {
+          "command": "defaults read /Library/Preferences/com.apple.loginwindow.plist SHOWFULLNAME",
+          "condition": 0,
+          "name": "Login Screen User and Password"
+        }
+      },
+      {
+        "model": "reports.report",
+        "pk": 2,
+        "fields": {
+          "command": "dscacheutil -q group -a name admin | grep users",
+          "condition": "users: root arthur",
+          "name": "Group Permissions - admin users"
+        }
+      }
+]

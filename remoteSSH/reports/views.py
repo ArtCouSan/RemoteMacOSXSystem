@@ -68,7 +68,7 @@ class ReportsView(TemplateView):
 
             # Loop nos computadores 
             for cp in computersArrays:
-  
+                
                 # Loop nos commandos
                 for rp in reportsArrays:
 
@@ -95,13 +95,21 @@ class ReportsView(TemplateView):
 
                             # Executa comando 
                             stdin, stdout, stderr = client.exec_command(command)
+                            
+                            out = stdout.read().decode('ascii').strip("\n")
 
-                            print("xxxxx")
                             # Verifica saida
-                            if stdout.read().decode('ascii').strip("\n") == rp.condition:
+                            if out == rp.condition or out is rp.condition:
 
                                 # Salva resultado
                                 strReport = 'Maquina {} com comando ( {} ) habilitado'.format(cp.ip, rp.name)
+
+                                reportsArray.append(strReport)
+                            
+                            else:
+
+                                # Salva resultado
+                                strReport = 'Maquina {} com comando ( {} ) desabilitado'.format(cp.ip, rp.name)
 
                                 reportsArray.append(strReport)
                             
