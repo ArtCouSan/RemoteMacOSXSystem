@@ -1,5 +1,6 @@
 from reportlab.pdfgen import canvas
 from datetime import datetime
+import os
 global canvas
 
 def geraPdf(canvas, reports):
@@ -8,7 +9,9 @@ def geraPdf(canvas, reports):
     now = datetime.now()
     arquivoName = "Report {} - {} - {}.pdf".format(now.day, now.month, now.year)
     
-    canvas = canvas.Canvas(arquivoName)
+    arquivoLocal = os.path.join(os.path.expanduser("~"), "Desktop/", arquivoName)
+
+    canvas = canvas.Canvas(arquivoLocal)
     canvas.setLineWidth(.3)
     canvas.setFont('Helvetica', 12)
 
