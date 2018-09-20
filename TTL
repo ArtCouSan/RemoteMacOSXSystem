@@ -1,0 +1,1 @@
+ping 172.21.36.53 -t 1 | awk -F '[ ]' 'NR == 2 {print $6}'| sed "s/ttl=//"
